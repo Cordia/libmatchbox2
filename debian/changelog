@@ -15,7 +15,7 @@ matchbox-window-manager-2 (0.2.48-1) unstable; urgency=low
 matchbox-window-manager-2 (0.2.47-1) unstable; urgency=low
 
   Thomas:
-  * Fixes: NB#115408 - Cannot snooze/stop an alarm playing over 
+  * Fixes NB#115408 - Cannot snooze/stop an alarm playing over 
     'Switch of device?' confirmation note
 
  -- Aapo Kojo <aapo.kojo@nokia.com>  Fri, 17 Jul 2009 12:44:09 +0300
