@@ -1,6 +1,11 @@
 matchbox-window-manager-2 (0.2.71-2) unstable; urgency=low
 
-  * foo
+  Adam:
+  * Don't set _NET_WORKAREA more often than necessary.
+  * Miscellaneous leak fixes.
+
+  Gordon:
+  * Expose the GetOverlayWindow API for hildon-desktop.
 
  -- Kimmo Hämäläinen <kimmo.hamalainen@nokia.com>  Fri, 23 Oct 2009 13:25:23 +0300
 
