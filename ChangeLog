@@ -1,3 +1,14 @@
+2009-10-23  Kimmo Hämäläinen  <kimmo.hamalainen@nokia.com>
+
+	Release 0.2.71-2
+
+2009-10-21  Adam Endrodi  <adam.endrodi@blumsoft.eu>
+
+	Plug.
+
+	* matchbox/theme-engines/mb-wm-theme.c (mb_wm_theme_protect):
+	  Don't lose the creat() file descriptor.
+
 2009-10-20  Gordon Williams <gordon.williams@collabora.co.uk>
 
 	Fixes for X memory leaks in h-d caused by GetOverlayWindow without a
