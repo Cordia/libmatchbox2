@@ -30,6 +30,9 @@
 
 #include <clutter/clutter.h>
 #include <clutter/x11/clutter-x11.h>
+#if HAVE_CLUTTER_GLX
+#include <clutter/glx/clutter-glx-texture-pixmap.h>
+#endif
 #if HAVE_CLUTTER_EGLX
 #include <clutter/clutter-eglx-texture-pixmap.h>
 #endif
@@ -1239,6 +1242,8 @@ mb_wm_comp_mgr_clutter_map_notify_real (MBWMCompMgr *mgr,
       g_debug ("%s: calling clutter_eglx_texture_pixmap_new", __FUNCTION__);
       texture = clutter_eglx_texture_pixmap_new ();
     }
+#elif HAVE_CLUTTER_GLX
+  texture = clutter_glx_texture_pixmap_new ();
 #else
   texture = clutter_x11_texture_pixmap_new ();
 #endif
