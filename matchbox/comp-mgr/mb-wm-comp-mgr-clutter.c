@@ -263,7 +263,7 @@ mb_wm_comp_mgr_clutter_fetch_texture (MBWMCompMgrClient *client)
    * if you just set the same window */
   clutter_x11_texture_pixmap_set_window (
           CLUTTER_X11_TEXTURE_PIXMAP (cclient->priv->texture),
-          0);
+          0, FALSE);
 
   /* If we are unredirected, just don't set windows, as we won't be able
    * to get the pixmap for them anyway. */
@@ -275,7 +275,7 @@ mb_wm_comp_mgr_clutter_fetch_texture (MBWMCompMgrClient *client)
 
       clutter_x11_texture_pixmap_set_window (
             CLUTTER_X11_TEXTURE_PIXMAP (cclient->priv->texture),
-            xwin);
+            xwin, FALSE);
     }
 
   cclient->priv->bound = TRUE;
@@ -1114,7 +1114,7 @@ mb_wm_comp_mgr_clutter_client_track_damage (MBWMCompMgrClutterClient *cclient,
            * probably missed damage events */
           if (cclient->priv->texture)
             {
-              guint w, h;
+              gfloat w, h;
 
               mb_wm_comp_mgr_clutter_fetch_texture (
                                 MB_WM_COMP_MGR_CLIENT (cclient));
@@ -1123,8 +1123,8 @@ mb_wm_comp_mgr_clutter_client_track_damage (MBWMCompMgrClutterClient *cclient,
                 {
                   clutter_actor_get_size (cclient->priv->texture, &w, &h);
                   clutter_x11_texture_pixmap_update_area (
-			CLUTTER_X11_TEXTURE_PIXMAP (cclient->priv->texture),
-			0, 0, w, h);
+                      CLUTTER_X11_TEXTURE_PIXMAP (cclient->priv->texture),
+			          0, 0, w, h);
                 }
             }
         }
@@ -1151,7 +1151,7 @@ mb_wm_comp_mgr_clutter_client_track_damage (MBWMCompMgrClutterClient *cclient,
         /* release the window in Clutter */
         clutter_x11_texture_pixmap_set_window (
                 CLUTTER_X11_TEXTURE_PIXMAP (cclient->priv->texture),
-                0);
+                0, FALSE);
       cclient->priv->damage_handling_off = True;
     }
 }
