@@ -36,7 +36,7 @@ AM_PROG_LIBTOOL
 AM_PROG_CC_C_O
 
 AC_HEADER_STDC
-AC_CHECK_HEADERS([stdlib.h string.h])
+AC_CHECK_HEADERS([stdlib.h string.h expat.h])
 AC_C_CONST
 AC_CHECK_FUNCS([memset strdup strncasecmp])
 
