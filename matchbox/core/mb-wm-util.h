@@ -80,16 +80,16 @@ mb_wm_util_async_trap_x_errors_full(Display *display,
                                     const gchar *message);
 
 #define mb_wm_util_async_trap_x_errors(DISPLAY) \
-  mb_wm_util_async_trap_x_errors_full(DISPLAY, __FUNCTION__, 0)
+  mb_wm_util_async_trap_x_errors_full(DISPLAY, (gchar *) __FUNCTION__, 0)
 
 #define mb_wm_util_async_trap_x_errors_warn(DISPLAY, MSG) \
-  mb_wm_util_async_trap_x_errors_full(DISPLAY, __FUNCTION__, MSG)
+  mb_wm_util_async_trap_x_errors_full(DISPLAY, (gchar *) __FUNCTION__, MSG)
 
 void
 mb_wm_util_async_untrap_x_errors_full(const gchar *function_name);
 
 #define mb_wm_util_async_untrap_x_errors() \
-  mb_wm_util_async_untrap_x_errors_full(__FUNCTION__)
+  mb_wm_util_async_untrap_x_errors_full((gchar *) __FUNCTION__)
 /* List */
 
 

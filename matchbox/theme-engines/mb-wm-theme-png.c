@@ -905,7 +905,7 @@ mb_wm_theme_png_paint_decor (MBWMTheme *theme, MBWMDecor *decor)
 
 	  XftTextExtentsUtf8 (xdpy,
 			  data->font,
-			  title, len,
+			  (FcChar8*)title, len,
 			  &extents);
 	  centering_padding = (rec.width - extents.width) / 2;
 	}
@@ -917,7 +917,7 @@ mb_wm_theme_png_paint_decor (MBWMTheme *theme, MBWMDecor *decor)
 			west_width + centering_padding:
 			west_width + left_padding,
 			y,
-			title, len);
+			(FcChar8*)title, len);
 #endif
 
       /* Unset the clipping rectangle */
@@ -1205,7 +1205,7 @@ mb_wm_theme_png_load_file (const char *file,
       return NULL;
     }
 
-  if (setjmp (png_ptr->jmpbuf))
+  if (setjmp (png_jmpbuf (png_ptr)))
     {
       png_destroy_read_struct( &png_ptr, &info_ptr, NULL);
       fclose(fd);
