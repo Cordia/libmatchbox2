@@ -242,9 +242,9 @@ mb_wm_comp_mgr_clutter_fetch_texture (MBWMCompMgrClient *client)
 {
   MBWMCompMgrClutterClient  *cclient  = MB_WM_COMP_MGR_CLUTTER_CLIENT(client);
   MBWindowManagerClient     *wm_client = client->wm_client;
-  MBWindowManager           *wm        = client->wm;
   Window                     xwin;
-#ifdef HAVE_XEXT
+#if defined(HAVE_XEXT) && defined(MAEGO_DISABLED)
+  MBWindowManager           *wm        = client->wm;
   /* Stuff we need for shaped windows */
   XRectangle                *shp_rect;
   int                        shp_order;
@@ -280,7 +280,7 @@ mb_wm_comp_mgr_clutter_fetch_texture (MBWMCompMgrClient *client)
 
   cclient->priv->bound = TRUE;
 
-#ifdef HAVE_XEXT
+#if defined(HAVE_XEXT) && defined(MAEGO_DISABLED)
   /*
    * If the client is shaped, we have to tell our texture about which bits of
    * it are visible. If it's not we want to just clear all shapes, and it'll
@@ -362,9 +362,11 @@ mb_wm_comp_mgr_clutter_client_init (MBWMObject *obj, va_list vap)
   cclient->priv->actor = g_object_ref_sink( clutter_group_new() );
   cclient->priv->bound = FALSE;
 
+#ifdef MAEMO_CHANGES
   /* Explicitly enable maemo-specific visibility detection to cut down
    * spurious paints */
   clutter_actor_set_visibility_detect(cclient->priv->actor, TRUE);
+#endif
   g_object_set_data (G_OBJECT (cclient->priv->actor),
                      "HD-MBWMCompMgrClutterClient", cclient);
   g_signal_connect(
@@ -387,7 +389,9 @@ mb_wm_comp_mgr_clutter_client_destroy (MBWMObject* obj)
   /* We just unref our actors here and clutter will free them if required */
   if (cclient->priv->actor)
     {
+#ifdef MAEGO_DISABLED
       int i,n;
+#endif
       /* Hildon-desktop may have set this, but we need to unset it now,
        * because we are being destroyed */
       g_object_set_data (G_OBJECT (cclient->priv->actor),
@@ -399,6 +403,7 @@ mb_wm_comp_mgr_clutter_client_destroy (MBWMObject* obj)
             CLUTTER_CONTAINER(clutter_actor_get_parent(cclient->priv->actor)),
             cclient->priv->actor);
 
+#ifdef MAEGO_DISABLED
       /* If the main group gets destroyed, it destroys all children - which
        * is not what we want, as they may have been added by hd-decor or
        * hd-animation-actor. Instead remove all children that aren't ours
@@ -417,6 +422,9 @@ mb_wm_comp_mgr_clutter_client_destroy (MBWMObject* obj)
               i--;
             }
         }
+#else
+      clutter_group_remove_all(CLUTTER_GROUP(cclient->priv->actor));
+#endif
 
       g_object_unref (cclient->priv->actor);
       cclient->priv->actor = NULL;
@@ -1243,17 +1251,21 @@ mb_wm_comp_mgr_clutter_map_notify_real (MBWMCompMgr *mgr,
   texture = clutter_x11_texture_pixmap_new ();
 #endif
 
+#ifdef MAEGO_DISABLED
   /* If the window isn't ARGB32, make sure we don't allow alpha */
   if (!c->is_argb32)
     clutter_x11_texture_pixmap_set_allow_alpha(
         CLUTTER_X11_TEXTURE_PIXMAP(texture), FALSE);
+#endif
 
   sprintf(actor_name, "texture_0x%lx",
           c->xwin_frame ? c->xwin_frame : c->window->xwindow);
   clutter_actor_set_name(texture, actor_name);
+#ifdef MAEMO_CHANGES
   /* Explicitly enable maemo-specific visibility detection to cut down
    * spurious paints */
   clutter_actor_set_visibility_detect(texture, TRUE);
+#endif
   clutter_actor_show (texture);
 
   clutter_container_add_actor (CLUTTER_CONTAINER (cclient->priv->actor),
