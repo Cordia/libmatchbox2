@@ -34,7 +34,7 @@
 #include <clutter/glx/clutter-glx-texture-pixmap.h>
 #endif
 #if HAVE_CLUTTER_EGLX
-#include <clutter/clutter-eglx-texture-pixmap.h>
+#include <clutter/eglx/clutter-eglx-texture-pixmap.h>
 #endif
 #include <X11/Xresource.h>
 #include <X11/extensions/shape.h>
