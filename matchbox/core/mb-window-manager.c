@@ -53,6 +53,7 @@
 #ifdef HAVE_XFIXES
 #include <X11/extensions/Xfixes.h> /* Used to hide the cursor */
 #endif
+#include <X11/cursorfont.h>
 
 #define FALLBACK_THEME_PATH "/usr/share/themes/default"
 
@@ -1858,17 +1859,18 @@ mb_window_manager_init (MBWMObject *this, va_list vap)
 
   mb_wm_keys_init(wm);
 
-  /* set the cursor invisible 
+  /* set the cursor */
   {
-    Pixmap pix = XCreatePixmap (wm->xdpy, wm->root_win->xwindow, 1, 1, 1);
-    XColor col;
-    Cursor blank_curs;
-
-    memset (&col, 0, sizeof (col));
-    blank_curs = XCreatePixmapCursor (wm->xdpy, pix, pix, &col, &col, 1, 1);
-    XFreePixmap (wm->xdpy, pix);
-    XDefineCursor(wm->xdpy, wm->root_win->xwindow, blank_curs);
-  }*/
+    //Pixmap pix = XCreatePixmap (wm->xdpy, wm->root_win->xwindow, 1, 1, 1);
+    //XColor col;
+    //Cursor blank_curs;
+    //memset (&col, 0, sizeof (col));
+    //blank_curs = XCreatePixmapCursor (wm->xdpy, pix, pix, &col, &col, 1, 1);
+    //XFreePixmap (wm->xdpy, pix);
+    Cursor xcursor;
+    xcursor = XCreateFontCursor (wm->xdpy, XC_left_ptr);
+    XDefineCursor(wm->xdpy, wm->root_win->xwindow, xcursor);
+  }
 
   return 1;
 }
