@@ -50,11 +50,6 @@
 
 #include <X11/Xmd.h>
 
-#ifdef HAVE_XFIXES
-#include <X11/extensions/Xfixes.h> /* Used to hide the cursor */
-#endif
-#include <X11/cursorfont.h>
-
 #define FALLBACK_THEME_PATH "/usr/share/themes/default"
 
 static void
@@ -1867,9 +1862,16 @@ mb_window_manager_init (MBWMObject *this, va_list vap)
     //memset (&col, 0, sizeof (col));
     //blank_curs = XCreatePixmapCursor (wm->xdpy, pix, pix, &col, &col, 1, 1);
     //XFreePixmap (wm->xdpy, pix);
-    Cursor xcursor;
-    xcursor = XCreateFontCursor (wm->xdpy, XC_left_ptr);
-    XDefineCursor(wm->xdpy, wm->root_win->xwindow, xcursor);
+    //---
+    //Cursor xcursor;
+    //xcursor = XCreateFontCursor (wm->xdpy, XC_left_ptr);
+    //XDefineCursor(wm->xdpy, wm->root_win->xwindow, xcursor);
+    GdkDisplay *display = gdk_display_get_default ();
+    GdkWindow *window = gdk_window_foreign_new_for_display (display, wm->root_win->xwindow);
+    GdkCursor *cursor = gdk_cursor_new_from_name (display, "left_ptr");
+    gdk_window_set_cursor (window, cursor);
+    gdk_cursor_destroy (cursor);
+    g_object_unref (window);
   }
 
   return 1;
